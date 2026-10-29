@@ -1,0 +1,24 @@
+# Skeleton. Later tasks add services (WA-02 SeaweedFS, WA-08 Airflow, WA-22 Kafka).
+# Rule for this file: every service has a healthcheck and reads config from .env.
+
+name: wa
+
+services:
+  app:
+    build: .
+    env_file:
+      - path: .env
+        required: false   # CI and fresh clones can still run `compose config`
+    environment:
+      WA_S3_ACCESS_KEY: ${WA_S3_ACCESS_KEY:-change-me-access}
+      WA_S3_SECRET_KEY: ${WA_S3_SECRET_KEY:-change-me-secret}
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+volumes: {}

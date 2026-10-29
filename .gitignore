@@ -1,0 +1,23 @@
+.env
+*.env.local
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+# local data and warehouse files
+data/*
+!data/.gitkeep
+*.duckdb
+*.duckdb.wal
+# dbt
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+# frontend
+frontend/node_modules/
+frontend/dist/
