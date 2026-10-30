@@ -21,3 +21,4 @@ dbt/dbt_packages/
 # frontend
 frontend/node_modules/
 frontend/dist/
+infra/seaweedfs/s3.json
