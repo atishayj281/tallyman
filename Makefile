@@ -13,10 +13,16 @@ fmt:
 test:
 	pytest -q
 
-up:
+up: s3-config
 	docker compose up -d --build
 
 down:
 	docker compose down
 
 check: lint test   # same two things CI runs
+
+s3-config:
+	python scripts/render_s3_config.py
+
+test-int:
+	pytest -q -m integration

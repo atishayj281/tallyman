@@ -1,24 +1,47 @@
 # Skeleton. Later tasks add services (WA-02 SeaweedFS, WA-08 Airflow, WA-22 Kafka).
 # Rule for this file: every service has a healthcheck and reads config from .env.
 
-name: wa
+name: tallyman
 
 services:
+  seaweedfs:
+    image: chrislusf/seaweedfs:latest
+    command: >
+      server -dir=/data -filer -s3 -s3.port=8333 -s3.config=/etc/seaweedfs/s3.json -master.volumeSizeLimitMB=1024
+    ports:
+      - "8333:8333" # S3 API
+      - "9333:9333" # master UI
+    volumes:
+      - seaweed_data:/data
+      - ./infra/seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://seaweedfs:9333/cluster/status || exit 1" ]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
   app:
     build: .
     env_file:
       - path: .env
-        required: false   # CI and fresh clones can still run `compose config`
+        required: false
     environment:
+      WA_S3_ENDPOINT: http://seaweedfs:8333 # inside compose, use the service name
       WA_S3_ACCESS_KEY: ${WA_S3_ACCESS_KEY:-change-me-access}
       WA_S3_SECRET_KEY: ${WA_S3_SECRET_KEY:-change-me-secret}
+    depends_on:
+      seaweedfs:
+        condition: service_healthy
     ports:
       - "8000:8000"
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/health')"]
+      test: [ "CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/health')" ]
       interval: 10s
       timeout: 3s
       retries: 5
     restart: unless-stopped
 
-volumes: {}
+volumes:
+  seaweed_data:
