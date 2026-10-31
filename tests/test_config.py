@@ -8,7 +8,7 @@ def test_defaults_and_secrets_load(monkeypatch):
     monkeypatch.setenv("WA_S3_ACCESS_KEY", "a")
     monkeypatch.setenv("WA_S3_SECRET_KEY", "b")
     s = Settings(_env_file=None)
-    assert s.s3_bucket_raw == "wa-raw"
+    assert s.s3_bucket_raw == "tallyman-raw"
     assert s.s3_access_key.get_secret_value() == "a"
 
 
