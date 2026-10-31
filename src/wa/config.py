@@ -6,11 +6,12 @@ Secrets have no defaults, so a missing one fails at startup, not at 2am.
 
 from functools import lru_cache
 
+from dotenv import load_dotenv
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from dotenv import load_dotenv
-import os
+
 load_dotenv()
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -28,6 +29,7 @@ class Settings(BaseSettings):
     s3_secret_key: SecretStr
     s3_bucket_raw: str = "wa-raw"
     s3_bucket_mart: str = "wa-mart"
+    tpch_sf: float = 1.0
 
 
 @lru_cache
