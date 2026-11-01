@@ -1,0 +1,191 @@
+{
+  "task": "WA-04",
+  "date": "2026-11-01T18:59:53+00:00",
+  "scale_factor": 1.0,
+  "warm_runs_per_query": 7,
+  "note": "Local machine, local SeaweedFS container; no real network latency. Cold = fresh DuckDB connection, not a cleared OS cache.",
+  "machine": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "logical_cpus": 16,
+    "duckdb_version": "2.0.0",
+    "duckdb_threads": 16,
+    "duckdb_memory_limit": "18.7 GiB"
+  },
+  "summary": {
+    "queries": 10,
+    "all_correct": true,
+    "warm_samples": 70,
+    "warm_p50_ms": 37.5,
+    "warm_p95_ms": 91.0
+  },
+  "queries": [
+    {
+      "query": 1,
+      "rows": 4,
+      "correct": true,
+      "cold_ms": 116.4,
+      "warm_ms": [
+        37.5,
+        37.5,
+        37.5,
+        38.3,
+        38.3,
+        45.4,
+        36.1
+      ]
+    },
+    {
+      "query": 3,
+      "rows": 10,
+      "correct": true,
+      "cold_ms": 201.3,
+      "warm_ms": [
+        46.8,
+        43.6,
+        34.5,
+        36.7,
+        39.4,
+        37.6,
+        39.4
+      ]
+    },
+    {
+      "query": 4,
+      "rows": 5,
+      "correct": true,
+      "cold_ms": 79.7,
+      "warm_ms": [
+        25.6,
+        29.8,
+        27.5,
+        25.9,
+        28.9,
+        28.9,
+        25.7
+      ]
+    },
+    {
+      "query": 5,
+      "rows": 5,
+      "correct": true,
+      "cold_ms": 127.5,
+      "warm_ms": [
+        40.6,
+        37.5,
+        36.6,
+        43.4,
+        38.1,
+        43.4,
+        42.4
+      ]
+    },
+    {
+      "query": 6,
+      "rows": 1,
+      "correct": true,
+      "cold_ms": 31.1,
+      "warm_ms": [
+        12.1,
+        12.0,
+        11.0,
+        9.9,
+        10.2,
+        11.1,
+        10.0
+      ]
+    },
+    {
+      "query": 10,
+      "rows": 20,
+      "correct": true,
+      "cold_ms": 172.2,
+      "warm_ms": [
+        79.9,
+        79.0,
+        91.0,
+        94.5,
+        88.8,
+        81.6,
+        109.3
+      ]
+    },
+    {
+      "query": 12,
+      "rows": 2,
+      "correct": true,
+      "cold_ms": 71.0,
+      "warm_ms": [
+        33.6,
+        26.3,
+        27.0,
+        28.0,
+        28.2,
+        28.0,
+        22.9
+      ]
+    },
+    {
+      "query": 14,
+      "rows": 1,
+      "correct": true,
+      "cold_ms": 58.2,
+      "warm_ms": [
+        27.4,
+        25.1,
+        26.0,
+        24.4,
+        23.3,
+        23.4,
+        23.0
+      ]
+    },
+    {
+      "query": 18,
+      "rows": 57,
+      "correct": true,
+      "cold_ms": 150.1,
+      "warm_ms": [
+        77.4,
+        77.8,
+        77.5,
+        69.1,
+        80.6,
+        73.1,
+        94.9
+      ]
+    },
+    {
+      "query": 19,
+      "rows": 1,
+      "correct": true,
+      "cold_ms": 151.2,
+      "warm_ms": [
+        51.7,
+        45.8,
+        48.8,
+        46.3,
+        48.1,
+        47.8,
+        47.6
+      ]
+    }
+  ],
+  "pruning_check": [
+    {
+      "case": "no filter",
+      "rows_counted": 6001215,
+      "median_ms": 13.7
+    },
+    {
+      "case": "l_shipdate in 1994",
+      "rows_counted": 909455,
+      "median_ms": 10.6
+    },
+    {
+      "case": "ship_year = 1994 (folder column)",
+      "rows_counted": 909455,
+      "median_ms": 8.7
+    }
+  ]
+}

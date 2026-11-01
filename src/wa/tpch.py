@@ -3,7 +3,7 @@
 from urllib.parse import urlparse
 
 import duckdb
-import numpy
+
 from wa.config import get_settings
 
 # table -> (partition column, expression) for the big tables, None for small ones.
@@ -65,10 +65,9 @@ def verify(sf: float) -> dict[str, int]:
     counts: dict[str, int] = {}
     for table in PARTITIONS:
         src = f"read_parquet('{base}/{table}/**/*.parquet', hive_partitioning=true)"
-        print(con.execute(f"select * from {src}").fetch_df())
-        print("--------"*3)
         counts[table] = con.execute(f"SELECT count(*) FROM {src}").fetchone()[0]  # noqa: S608
     return counts
+
 
 if __name__ == "__main__":
     print(verify(1.0))
