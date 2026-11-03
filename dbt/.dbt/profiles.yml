@@ -1,0 +1,15 @@
+tallyman:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: data/tallyman.duckdb     # relative to where dbt runs (repo root); gitignored
+      threads: 4
+      extensions:
+        - httpfs
+      settings:
+        s3_endpoint: "{{ env_var('WA_S3_ENDPOINT', 'http://localhost:8333') | replace('http://', '') | replace('https://', '') }}"
+        s3_use_ssl: false
+        s3_url_style: path
+        s3_access_key_id: "{{ env_var('WA_S3_ACCESS_KEY') }}"
+        s3_secret_access_key: "{{ env_var('WA_S3_SECRET_KEY') }}"

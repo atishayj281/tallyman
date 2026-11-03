@@ -1,0 +1,21 @@
+name: tallyman
+version: "0.1.0"
+config-version: 2
+profile: tallyman
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  sf: 1          # TPC-H scale factor; must match what gen_tpch.py wrote
+
+on-run-start:
+  - "{{ create_raw_views() }}"
+
+models:
+  tallyman:
+    staging:
+      +materialized: view
