@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: tpch
+    description: Raw TPC-H tables as Parquet in object storage, exposed as views in the raw schema.
+    schema: raw
+    tables:
+      - name: lineitem
+      - name: orders
+      - name: customer
+      - name: part
+      - name: partsupp
+      - name: supplier
+      - name: nation
+      - name: region

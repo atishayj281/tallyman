@@ -1,0 +1,87 @@
+version: 2
+
+models:
+  - name: stg_region
+    columns:
+      - name: region_key
+        data_tests: [unique, not_null]
+  - name: stg_nation
+    columns:
+      - name: nation_key
+        data_tests: [unique, not_null]
+      - name: region_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('stg_region'), field: region_key}
+  - name: stg_supplier
+    columns:
+      - name: supplier_key
+        data_tests: [unique, not_null]
+      - name: nation_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('stg_nation'), field: nation_key}
+  - name: stg_customer
+    columns:
+      - name: customer_key
+        data_tests: [unique, not_null]
+      - name: nation_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('stg_nation'), field: nation_key}
+      - name: market_segment
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['AUTOMOBILE', 'BUILDING', 'FURNITURE', 'HOUSEHOLD', 'MACHINERY']
+  - name: stg_part
+    columns:
+      - name: part_key
+        data_tests: [unique, not_null]
+  - name: stg_partsupp
+    columns:
+      - name: part_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('stg_part'), field: part_key}
+      - name: supplier_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('stg_supplier'), field: supplier_key}
+  - name: stg_orders
+    columns:
+      - name: order_key
+        data_tests: [unique, not_null]
+      - name: customer_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('stg_customer'), field: customer_key}
+      - name: order_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['O', 'F', 'P']
+  - name: stg_lineitem
+    columns:
+      - name: order_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('stg_orders'), field: order_key}
+      - name: part_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('stg_part'), field: part_key}
+      - name: supplier_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('stg_supplier'), field: supplier_key}
+      - name: return_flag
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['R', 'A', 'N']
+      - name: line_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['O', 'F']
